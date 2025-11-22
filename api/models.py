@@ -13,3 +13,37 @@ class QueryPlan(BaseModel):
         description="Exactly 5 search queries: first 3 are related queries, last 2 are decomposition queries",
     )
 
+
+class ResearchResultItem(BaseModel):
+    url: str
+    title: str
+    snippet: str
+    score: float | None = None
+    published_at: str | None = None
+    source_type: str = "web"
+
+
+class ResearchResultGroup(BaseModel):
+    query: str
+    engine: str = "exa"
+    items: list[ResearchResultItem]
+
+
+class ResearchNote(BaseModel):
+    id: str
+    query: str
+    source_url: str
+    summary: str
+    stance: str
+    quality_hint: str
+
+
+class ResearchBundle(BaseModel):
+    original_query: str
+    expanded_queries: list[str]
+    search_results: list[ResearchResultGroup]
+    research_notes: list[ResearchNote] | None = None
+
+
+class DeepResearchResponse(BaseModel):
+    report: str
